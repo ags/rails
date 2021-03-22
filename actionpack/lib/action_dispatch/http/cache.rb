@@ -196,7 +196,11 @@ module ActionDispatch
           control.merge! cache_control
 
           if control[:no_store]
-            self._cache_control = NO_STORE
+            options = []
+            options << PRIVATE if control[:private]
+            options << NO_STORE
+
+            self._cache_control = options.join(", ")
           elsif control[:no_cache]
             options = []
             options << PUBLIC if control[:public]
